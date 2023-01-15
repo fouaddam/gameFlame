@@ -1,0 +1,52 @@
+{"frames": {
+
+"Melee (2).png":
+{
+	"frame": {"x":0,"y":0,"w":142,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":142,"h":139},
+	"sourceSize": {"w":142,"h":139}
+},
+"Melee (3).png":
+{
+	"frame": {"x":142,"y":0,"w":142,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":142,"h":139},
+	"sourceSize": {"w":142,"h":139}
+},
+"Melee (4).png":
+{
+	"frame": {"x":284,"y":0,"w":142,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":142,"h":139},
+	"sourceSize": {"w":142,"h":139}
+},
+"Melee (5).png":
+{
+	"frame": {"x":426,"y":0,"w":142,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":142,"h":139},
+	"sourceSize": {"w":142,"h":139}
+},
+"Melee (6).png":
+{
+	"frame": {"x":568,"y":0,"w":142,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":142,"h":139},
+	"sourceSize": {"w":142,"h":139}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Melee.png",
+	"format": "RGBA8888",
+	"size": {"w":710,"h":139},
+	"scale": "0.25",
+	"smartupdate": "$TexturePacker:SmartUpdate:6b2f995dbc3fe5d2e18f5141768b66a2:d8a952361ad3aefd10dea82f66bc0dfc:a18bab50d7cf20e5c34fbccdffc54582$"
+}
+}
