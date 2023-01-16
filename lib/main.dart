@@ -5,9 +5,13 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/parallax.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flame_texturepacker/flame_texturepacker.dart';
+
+import 'Colision.dart';
+import 'Robot.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,13 +24,18 @@ void main() {
 }
 
 
-class MyGame extends FlameGame with HasDraggables {
-  MyGame();
+class MyGame extends Forge2DGame with HasDraggables{
+
+  MyGame():super(gravity: Vector2(0, 15),zoom: 1);
+
+
+
 
   final knobPaint = BasicPalette.yellow.withAlpha(200).paint();
   final backgroundPaint = BasicPalette.white.withAlpha(100).paint();
   late JoystickComponent joystickComponent;
   late ParallaxComponent parallaxComponent;
+  late Robot robot;
 
   @override
   Future<void> onLoad() async {
@@ -47,6 +56,8 @@ class MyGame extends FlameGame with HasDraggables {
      );
 
      add(parallaxComponent);
+     //addContactCallback(BallWallCallback());
+
 
      joystickComponent =JoystickComponent(
          knob: CircleComponent(radius: 20, paint: knobPaint),
@@ -87,11 +98,11 @@ class MyGame extends FlameGame with HasDraggables {
      //Ground ground=Ground(Vector2(100,100), Vector2(100,100));
      //add(ground);
 
-     add(player);
+    // add(player);
+       robot=Robot(Vector2(300,200), 0.5, listSprite);
+      add(robot);
+     Ground ground=Ground(Vector2(600,600),50,50);
 
-     Ground ground=Ground( position: Vector2(-170,size.y-80), size:Vector2(size.x+350,150));
-     ground
-    .sprite = await loadSprite("street.png");
 
     add(ground);
 

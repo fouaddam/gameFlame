@@ -1,5 +1,6 @@
 
 
+import 'package:actividad/Ground.dart';
 import 'package:actividad/Joy.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -86,10 +87,18 @@ class Player extends SpriteAnimationGroupComponent with CollisionCallbacks,HasGa
 
     double playerVectory = (gameRef.joystickComponent.delta * 10 * dt).y;
 
-    if(stateY){
+    if(stateY && position.y>gameRef.size.y/2){
       current=animationState.jump;
-
       position.add(Vector2(0, playerVectory));
+
+      if(position.y<gameRef.size.y/2){
+        current=animationState.idle;
+        velocity.y-=(gravity/20);
+        position.y-=velocity.y*dt;
+        position.add(Vector2(0,velocity.y));
+
+
+      }
 
     }
 
@@ -98,14 +107,8 @@ class Player extends SpriteAnimationGroupComponent with CollisionCallbacks,HasGa
       position.y-=velocity.y*dt;
 
     }
-
-
-
-
-
-
-
-
   }
+
+
 
 }
