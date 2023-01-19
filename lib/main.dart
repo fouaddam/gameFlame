@@ -1,6 +1,9 @@
 import 'package:actividad/Ground.dart';
 import 'package:actividad/Player.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
+import 'package:flame/effects.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -99,15 +102,25 @@ class MyGame extends Forge2DGame with HasDraggables{
      //add(ground);
 
     // add(player);
-       robot=Robot(Vector2(300,200), 0.5, listSprite);
+       robot=Robot(Vector2(200,200), 0.5, listSprite);
       add(robot);
+
+
      Ground ground=Ground(Vector2(600,600),50,50);
 
 
     add(ground);
 
 
+    // addContactCallback(BallWallCallback());
+
   }
 
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+
+  }
 
 }

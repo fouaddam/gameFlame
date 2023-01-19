@@ -57,15 +57,12 @@ class Player extends SpriteAnimationGroupComponent with CollisionCallbacks,HasGa
     // TODO: implement onMount
     super.onMount();
 
-
-
   }
 
   @override
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
-
 
 
     bool stateX=gameRef.joystickComponent.relativeDelta.x.isNegative;

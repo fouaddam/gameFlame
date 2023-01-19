@@ -10,7 +10,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 
 
 
-class Ground extends BodyComponent<MyGame> with CollisionCallbacks{
+class Ground extends BodyComponent<MyGame> {
 
   final Vector2 gameSize;
   final int x;
@@ -32,22 +32,25 @@ class Ground extends BodyComponent<MyGame> with CollisionCallbacks{
     // TODO: implement onLoad
      super.onLoad();
 
+
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    // TODO: implement onCollision
-    super.onCollision(intersectionPoints, other);
-
-    if(other is Robot){
-      print("si");
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+    if(world.contactManager.contacts.isNotEmpty){
+      //print(world.contactManager.contacts.first.bodyB.userData.toString());
     }
   }
 
 
+  }
 
 
-}
+
+
+
 
 
 

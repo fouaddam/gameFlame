@@ -3,8 +3,10 @@ import 'package:actividad/Player.dart';
 import 'package:actividad/main.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/animation.dart';
 import 'package:forge2d/src/dynamics/body.dart';
 
 import 'Ground.dart';
@@ -26,7 +28,7 @@ class Robot extends BodyComponent<MyGame> {
 
   @override
   Body createBody() {
-    final shape=CircleShape()..radius=42;
+    final shape=CircleShape()..radius=40;
     final fixture=FixtureDef(shape,friction: 0.2,restitution: 0.2,density: 0.5);
     bodyDef=BodyDef(userData:this,position: position,type:BodyType.dynamic);
     return world.createBody(bodyDef)..createFixture(fixture);
@@ -38,19 +40,7 @@ class Robot extends BodyComponent<MyGame> {
   Future<void> onLoad() async {
     // TODO: implement onLoad
      super.onLoad();
-     robot.
-     animations={
-       animationState.walk:listSprite[0],
-       animationState.melle:listSprite[1],
-       animationState.idle:listSprite[2],
-       animationState.jump:listSprite[3],
-       animationState.runShoot:listSprite[4]
-     };
-      robot.size=Vector2(100, 100);
-      robot.anchor=Anchor.center;
-      robot.current=animationState.idle;
 
-     add(robot);
      //add(CircleHitbox());
 
   }
@@ -60,6 +50,32 @@ class Robot extends BodyComponent<MyGame> {
     // TODO: implement onMount
     super.onMount();
     //add(CircleHitbox());
+
+    robot.
+    animations={
+      animationState.walk:listSprite[0],
+      animationState.melle:listSprite[1],
+      animationState.idle:listSprite[2],
+      animationState.jump:listSprite[3],
+      animationState.runShoot:listSprite[4]
+    };
+    robot.size=Vector2(100, 100);
+    robot.anchor=Anchor.center;
+    robot.current=animationState.idle;
+
+    add(
+            robot
+              ..add(
+            MoveEffect.to(
+            Vector2(10, 0),
+        EffectController(
+        duration: 10,
+        infinite: true,
+        alternate: true,
+    ),
+    )
+          )
+    );
   }
 
   @override
@@ -67,6 +83,15 @@ class Robot extends BodyComponent<MyGame> {
     // TODO: implement update
     super.update(dt);
 
+    if(robot.position.x>=5){
+      gameRef.robot.body.position.x+=0.7;
+    }else if(robot.position.x<5){
+      gameRef.robot.body.position.x-=0.7;
+    }
+    //print(robot.position.x.toString());
+    //center.x+=robot.position.x;
+    //print();
+    //print("*****${body.position.x}");
     bool stateX=gameRef.joystickComponent.relativeDelta.x.isNegative;
     bool stateY=gameRef.joystickComponent.relativeDelta.y.isNegative;
     if(!stateX){
