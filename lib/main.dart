@@ -1,21 +1,18 @@
+import 'dart:math';
+
 import 'package:actividad/Ground.dart';
 import 'package:actividad/Player.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
-import 'package:flame/effects.dart';
-import 'package:flame/effects.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flame_texturepacker/flame_texturepacker.dart';
-
-import 'Colision.dart';
 import 'Enemy.dart';
 import 'Robot.dart';
+import 'dart:async';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +29,6 @@ class MyGame extends Forge2DGame with HasDraggables{
 
   MyGame():super(gravity: Vector2(0, 15),zoom: 1);
 
-
-
-
   final knobPaint = BasicPalette.yellow.withAlpha(200).paint();
   final backgroundPaint = BasicPalette.white.withAlpha(100).paint();
   late JoystickComponent joystickComponent;
@@ -42,6 +36,8 @@ class MyGame extends Forge2DGame with HasDraggables{
   late Robot robot;
   late Enemy enemy;
   late Ground ground;
+  late Timer timer;
+
 
   @override
   Future<void> onLoad() async {
@@ -108,12 +104,45 @@ class MyGame extends Forge2DGame with HasDraggables{
        robot=Robot(Vector2(200,400), 0.5, listSprite);
       add(robot);
 
-     enemy=Enemy(Vector2(400,400), 0.5, listSprite);
-     add(enemy);
+
       ground=Ground(Vector2(600,600),50,50);
 
-
     add(ground);
+
+     timer = Timer(2, onTick: () async {
+       if (remaninTime >= 1) {
+         remaninTime -= 1;
+         Random r = Random();
+         int high = size.x as int;
+
+         enemy=Enemy(Vector2(400,400), 0.5, listSprite);
+         add(enemy);
+
+         BulletEnemy bulletEnemy = BulletEnemy(
+             sprite: spriteSheet.getSprite(5, 6)
+             ,
+             position: Vector2((r.nextInt(high - 40) + 40) - 30, 0),
+             size: Vector2(80, 80));
+         add(bulletEnemy);
+
+         BulletEnemy bulletEnemy2 = BulletEnemy(
+             sprite: spriteSheet.getSprite(5, 7)
+             ,
+             position: Vector2((r.nextInt(high - 40) + 40) - 30, 0),
+             size: Vector2(80, 80));
+         add(bulletEnemy2);
+
+         _hpText.text = player2.intGetScore().toString();
+
+         if (r.nextInt(8) == 6 || r.nextInt(8) == 2) {
+           Heart heart = Heart(
+               position: Vector2((r.nextInt(high - 40) + 40) - 60, 0),
+               size: Vector2(30, 30), sprite: await loadSprite("heart.png"));
+           add(heart);
+
+         }
+       }
+     }, repeat: true);
 
 
     // addContactCallback(BallWallCallback());
