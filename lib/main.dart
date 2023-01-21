@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flame_texturepacker/flame_texturepacker.dart';
 
 import 'Colision.dart';
+import 'Enemy.dart';
 import 'Robot.dart';
 
 void main() {
@@ -39,6 +40,8 @@ class MyGame extends Forge2DGame with HasDraggables{
   late JoystickComponent joystickComponent;
   late ParallaxComponent parallaxComponent;
   late Robot robot;
+  late Enemy enemy;
+  late Ground ground;
 
   @override
   Future<void> onLoad() async {
@@ -102,11 +105,12 @@ class MyGame extends Forge2DGame with HasDraggables{
      //add(ground);
 
     // add(player);
-       robot=Robot(Vector2(200,200), 0.5, listSprite);
+       robot=Robot(Vector2(200,400), 0.5, listSprite);
       add(robot);
 
-
-     Ground ground=Ground(Vector2(600,600),50,50);
+     enemy=Enemy(Vector2(400,400), 0.5, listSprite);
+     add(enemy);
+      ground=Ground(Vector2(600,600),50,50);
 
 
     add(ground);

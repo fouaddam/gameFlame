@@ -84,9 +84,9 @@ class Robot extends BodyComponent<MyGame> {
     super.update(dt);
 
     if(robot.position.x>=5){
-      gameRef.robot.body.position.x+=0.7;
+      //gameRef.robot.body.position.x+=0.7;
     }else if(robot.position.x<5){
-      gameRef.robot.body.position.x-=0.7;
+     // gameRef.robot.body.position.x-=0.7;
     }
     //print(robot.position.x.toString());
     //center.x+=robot.position.x;
@@ -97,6 +97,7 @@ class Robot extends BodyComponent<MyGame> {
     if(!stateX){
       robot.current=animationState.runShoot;
       gameRef.parallaxComponent.parallax?.baseVelocity.x=100;
+      //gameRef.robot.body.position.x+=1;
     }
 
     if(stateX && gameRef.joystickComponent.relativeDelta.x<0){
@@ -111,14 +112,19 @@ class Robot extends BodyComponent<MyGame> {
 
     double playerVectory = (gameRef.joystickComponent.delta * 10 * dt).y;
 
-    if(stateY && gameRef.robot.body.position.y>gameRef.size.y/2){
+    if(stateY && gameRef.robot.body.position.y>100){
       robot.current=animationState.jump;
       gameRef.robot.body.position.add(Vector2(0, playerVectory));
 
-      if(gameRef.robot.body.position.y<=gameRef.size.y/2){
+      if(gameRef.robot.body.position.y<=100){
         robot.current=animationState.idle;
       }
 
+    }
+   // print(gameRef.ground.body.position.y);
+    if(!stateY  && gameRef.robot.body.position.y<=gameRef.size.y-120){//position ground me da 0
+
+      gameRef.robot.body.position.add(Vector2(0, playerVectory));
     }
 
     /*if(position.y<gameRef.size.y-size.y && current!=animationState.jump){
