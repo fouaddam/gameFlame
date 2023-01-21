@@ -1,3 +1,4 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_forge2d/body_component.dart';
@@ -7,7 +8,7 @@ import 'main.dart';
 
 enum animationState {walk,melle,idle,jump,runShoot}
 
-class Enemy extends BodyComponent<MyGame> {
+class Enemy extends BodyComponent<MyGame> with CollisionCallbacks {
 
   late Vector2 position;
   late double restitution;
@@ -25,9 +26,16 @@ class Enemy extends BodyComponent<MyGame> {
     final fixture = FixtureDef(
         shape, friction: 0.2, restitution: 0.2, density: 0.5);
     bodyDef =
-        BodyDef(userData: this, position: position, type: BodyType.dynamic);
+        BodyDef(userData: this, position: position, type: BodyType.dynamic,fixedRotation: true);
     return world.createBody(bodyDef)
       ..createFixture(fixture);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    // TODO: implement onCollision
+    super.onCollision(intersectionPoints, other);
+    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
   }
 
 
@@ -39,6 +47,7 @@ class Enemy extends BodyComponent<MyGame> {
     //add(CircleHitbox());
 
   }
+
 
   @override
   void onMount() {
@@ -78,7 +87,9 @@ class Enemy extends BodyComponent<MyGame> {
     // TODO: implement update
     super.update(dt);
 
-    gameRef.enemy.body.position.x-= 0.5;
+    //gameRef.enemy.body.position.x-= 1;
+    //enemy.position.x-= 1;
+    gameRef.enemy.center.x-= 1;
 
     /*print("BoDYEnemYYY${gameRef.enemy.body.position.x}");
     print("BoDYRobot${gameRef.robot.body.position.x}");

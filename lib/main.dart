@@ -3,16 +3,18 @@ import 'dart:math';
 import 'package:actividad/Ground.dart';
 import 'package:actividad/Player.dart';
 import 'package:flame/components.dart';
+
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/parallax.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_texturepacker/flame_texturepacker.dart';
 import 'Enemy.dart';
 import 'Robot.dart';
 import 'dart:async';
+import 'package:flame/timer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,7 @@ void main() {
 }
 
 
-class MyGame extends Forge2DGame with HasDraggables{
+class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
 
   MyGame():super(gravity: Vector2(0, 15),zoom: 1);
 
@@ -37,6 +39,7 @@ class MyGame extends Forge2DGame with HasDraggables{
   late Enemy enemy;
   late Ground ground;
   late Timer timer;
+    int remaninTime=10;
 
 
   @override
@@ -109,16 +112,16 @@ class MyGame extends Forge2DGame with HasDraggables{
 
     add(ground);
 
-     timer = Timer(2, onTick: () async {
+     timer = Timer(7, onTick: () async {
        if (remaninTime >= 1) {
-         remaninTime -= 1;
-         Random r = Random();
-         int high = size.x as int;
+         remaninTime -= 2;
+         //Random r = Random();
+        // int high = size.x as int;
 
-         enemy=Enemy(Vector2(400,400), 0.5, listSprite);
+         enemy=Enemy(Vector2(700,400), 0.5, listSprite);
          add(enemy);
 
-         BulletEnemy bulletEnemy = BulletEnemy(
+         /*BulletEnemy bulletEnemy = BulletEnemy(
              sprite: spriteSheet.getSprite(5, 6)
              ,
              position: Vector2((r.nextInt(high - 40) + 40) - 30, 0),
@@ -140,7 +143,7 @@ class MyGame extends Forge2DGame with HasDraggables{
                size: Vector2(30, 30), sprite: await loadSprite("heart.png"));
            add(heart);
 
-         }
+         }*/
        }
      }, repeat: true);
 
@@ -153,7 +156,25 @@ class MyGame extends Forge2DGame with HasDraggables{
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
+    if (remaninTime > 0) {
+      timer.update(dt);
+    }
+
 
   }
+
+  void Contacts(){
+    if(world.contactManager.contacts.isNotEmpty){
+      world.contactManager.contacts.forEach((element) {
+        print("Cuerpo A ${element.bodyA.userData}");
+        print("Cuerpo B ${element.bodyB.userData.toString()}");
+
+      });
+     // print(world.contactManager.contacts.first);
+    }
+  }
+
+
+
 
 }

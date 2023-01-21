@@ -9,12 +9,13 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/animation.dart';
 import 'package:forge2d/src/dynamics/body.dart';
 
+import 'Enemy.dart';
 import 'Ground.dart';
 
 enum animationState {walk,melle,idle,jump,runShoot}
 
 
-class Robot extends BodyComponent<MyGame> {
+class Robot extends BodyComponent<MyGame> with CollisionCallbacks{
 
   late Vector2 position;
   late double restitution;
@@ -30,7 +31,7 @@ class Robot extends BodyComponent<MyGame> {
   Body createBody() {
     final shape=CircleShape()..radius=40;
     final fixture=FixtureDef(shape,friction: 0.2,restitution: 0.2,density: 0.5);
-    bodyDef=BodyDef(userData:this,position: position,type:BodyType.dynamic);
+    bodyDef=BodyDef(userData:this,position: position,type:BodyType.dynamic,fixedRotation: true);
     return world.createBody(bodyDef)..createFixture(fixture);
   }
 
@@ -64,8 +65,8 @@ class Robot extends BodyComponent<MyGame> {
     robot.current=animationState.idle;
 
     add(
-            robot
-              ..add(
+        robot
+              /*..add(
             MoveEffect.to(
             Vector2(10, 0),
         EffectController(
@@ -74,7 +75,7 @@ class Robot extends BodyComponent<MyGame> {
         alternate: true,
     ),
     )
-          )
+          )*/
     );
   }
 
@@ -123,7 +124,6 @@ class Robot extends BodyComponent<MyGame> {
     }
    // print(gameRef.ground.body.position.y);
     if(!stateY  && gameRef.robot.body.position.y<=gameRef.size.y-120){//position ground me da 0
-
       gameRef.robot.body.position.add(Vector2(0, playerVectory));
     }
 
@@ -132,6 +132,27 @@ class Robot extends BodyComponent<MyGame> {
       position.y-=velocity.y*dt;
 
     }*/
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    // TODO: implement onCollision
+    super.onCollision(intersectionPoints, other);
+    if(other is Enemy){
+
+    }
+  }
+
+
+
+
+  @override
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    // TODO: implement onCollisionStart
+    super.onCollisionStart(intersectionPoints, other);
+    if(other is Enemy){
+      print("HHHHHHHHHHHHHHHHHH");
+    }
   }
 
 
