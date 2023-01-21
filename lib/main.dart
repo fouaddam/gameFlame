@@ -11,6 +11,7 @@ import 'package:flame/parallax.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_texturepacker/flame_texturepacker.dart';
+import 'Colision.dart';
 import 'Enemy.dart';
 import 'Robot.dart';
 import 'dart:async';
@@ -47,6 +48,7 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
     // TODO: implement onLoad
      super.onLoad();
    // add(Player(position: Vector2(200,200), size: Vector2(200,200)));
+
 
      parallaxComponent = await ParallaxComponent.load(
        [
@@ -149,6 +151,8 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
 
 
     // addContactCallback(BallWallCallback());
+
+
 
   }
 
