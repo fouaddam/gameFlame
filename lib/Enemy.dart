@@ -35,6 +35,7 @@ class Enemy extends BodyComponent<MyGame> with CollisionCallbacks {
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     // TODO: implement onCollision
     super.onCollision(intersectionPoints, other);
+
     print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
   }
 

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:actividad/Ground.dart';
 import 'package:actividad/Player.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -11,8 +12,10 @@ import 'package:flame/parallax.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_texturepacker/flame_texturepacker.dart';
+import 'Bullet.dart';
 import 'Colision.dart';
 import 'Enemy.dart';
+import 'EnemyP.dart';
 import 'Robot.dart';
 import 'dart:async';
 import 'package:flame/timer.dart';
@@ -28,7 +31,7 @@ void main() {
 }
 
 
-class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
+class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDetector{
 
   MyGame():super(gravity: Vector2(0, 15),zoom: 1);
 
@@ -39,8 +42,11 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
   late Robot robot;
   late Enemy enemy;
   late Ground ground;
+  late Player player;
   late Timer timer;
+  late EnemyP enemyP;
     int remaninTime=10;
+
 
 
   @override
@@ -101,18 +107,20 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
        listSprite.add(Jump);
        listSprite.add(RunShoot);
 
-     Player player=Player(listSprite, position: Vector2(200,100), size: Vector2(100,100));
+      player=Player(listSprite, position: Vector2(200,100), size: Vector2(100,100));
+
+     add(player);
      //Ground ground=Ground(Vector2(100,100), Vector2(100,100));
      //add(ground);
 
     // add(player);
        robot=Robot(Vector2(200,400), 0.5, listSprite);
-      add(robot);
+      //add(robot);
 
 
       ground=Ground(Vector2(600,600),50,50);
 
-    add(ground);
+    //add(ground);
 
      timer = Timer(7, onTick: () async {
        if (remaninTime >= 1) {
@@ -121,7 +129,9 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
         // int high = size.x as int;
 
          enemy=Enemy(Vector2(700,400), 0.5, listSprite);
-         add(enemy);
+
+         enemyP=EnemyP(listSprite, position: Vector2(400,500), size: Vector2(100,100));
+         add(enemyP);
 
          /*BulletEnemy bulletEnemy = BulletEnemy(
              sprite: spriteSheet.getSprite(5, 6)
@@ -176,6 +186,17 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection{
       });
      // print(world.contactManager.contacts.first);
     }
+  }
+
+  @override
+  Future<void> onTapDown(TapDownInfo info) async {
+    // TODO: implement onTapDown
+    super.onTapDown(info);
+
+    Bullet bullet=Bullet(sprite:await loadSprite("missil.png")
+        ,position:player.position.clone()+Vector2(40,-15),size:Vector2(20,30),level: 1);
+    add(bullet);
+
   }
 
 
