@@ -13,13 +13,12 @@ class Bullet extends SpriteComponent with CollisionCallbacks,HasGameRef<MyGame> 
 
   // Level of this bullet. Essentially represents the
   // level of spaceship that fired this bullet.
-  final int level;
+
 
   Bullet({
     required Sprite? sprite,
     required Vector2? position,
     required Vector2? size,
-    required this.level,
   }) : super(sprite: sprite, position: position, size: size);
 
   @override
@@ -36,25 +35,6 @@ class Bullet extends SpriteComponent with CollisionCallbacks,HasGameRef<MyGame> 
     shape.renderShape = false;
     add(shape);
   }
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    // If the other Collidable is Enemy, remove this bullet.
-    /*if (other is Player2 || other is BulletEnemy) {
-      removeFromParent();
-      FlameAudio.play("explosion.mp3");
-
-    }*/
-
-    /*if (other is SpaceShipEnemy) {
-      removeFromParent();
-      gameRef.camera.shake(intensity: 5);
-      FlameAudio.play("explosion.mp3");
-
-    }*/
-  }
-
 
 
   @override

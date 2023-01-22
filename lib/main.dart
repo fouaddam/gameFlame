@@ -13,6 +13,7 @@ import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_texturepacker/flame_texturepacker.dart';
 import 'Bullet.dart';
+import 'BulletBodyComp.dart';
 import 'Colision.dart';
 import 'Enemy.dart';
 import 'EnemyP.dart';
@@ -45,6 +46,7 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDet
   late Player player;
   late Timer timer;
   late EnemyP enemyP;
+  late BulletBodyComp bulletBodyComp;
     int remaninTime=10;
 
 
@@ -109,18 +111,17 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDet
 
       player=Player(listSprite, position: Vector2(200,100), size: Vector2(100,100));
 
-     add(player);
+     //add(player);
      //Ground ground=Ground(Vector2(100,100), Vector2(100,100));
      //add(ground);
 
     // add(player);
        robot=Robot(Vector2(200,400), 0.5, listSprite);
-      //add(robot);
-
+      add(robot);
 
       ground=Ground(Vector2(600,600),50,50);
 
-    //add(ground);
+    add(ground);
 
      timer = Timer(7, onTick: () async {
        if (remaninTime >= 1) {
@@ -131,7 +132,7 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDet
          enemy=Enemy(Vector2(700,400), 0.5, listSprite);
 
          enemyP=EnemyP(listSprite, position: Vector2(400,500), size: Vector2(100,100));
-         add(enemyP);
+         add(enemy);
 
          /*BulletEnemy bulletEnemy = BulletEnemy(
              sprite: spriteSheet.getSprite(5, 6)
@@ -158,12 +159,7 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDet
          }*/
        }
      }, repeat: true);
-
-
     // addContactCallback(BallWallCallback());
-
-
-
   }
 
   @override
@@ -192,14 +188,11 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDet
   Future<void> onTapDown(TapDownInfo info) async {
     // TODO: implement onTapDown
     super.onTapDown(info);
-
-    Bullet bullet=Bullet(sprite:await loadSprite("missil.png")
-        ,position:player.position.clone()+Vector2(40,-15),size:Vector2(20,30),level: 1);
-    add(bullet);
+    bulletBodyComp=BulletBodyComp(await loadSprite("missil.png")
+        ,robot.body.position.clone()+Vector2(40,-15),Vector2(20,30));
+    add(bulletBodyComp);
 
   }
-
-
 
 
 }

@@ -21,8 +21,6 @@ class Player extends SpriteAnimationGroupComponent with CollisionCallbacks,HasGa
   double gravity=9.8;
   Vector2 velocity=Vector2(0, 0);
 
-
-
   Player(this.listSprite, {
     required Vector2 position,
     required Vector2 size,
@@ -36,8 +34,6 @@ class Player extends SpriteAnimationGroupComponent with CollisionCallbacks,HasGa
     hitbox.renderShape = false;
     anchor=Anchor.center;
     add(hitbox);
-
-
 
     animations={
       animationState.walk:listSprite[0],

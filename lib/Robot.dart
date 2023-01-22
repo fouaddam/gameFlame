@@ -15,7 +15,7 @@ import 'Ground.dart';
 enum animationState {walk,melle,idle,jump,runShoot}
 
 
-class Robot extends BodyComponent<MyGame> with CollisionCallbacks{
+class Robot extends BodyComponent<MyGame> with ContactCallbacks{
 
   late Vector2 position;
   late double restitution;
@@ -24,8 +24,7 @@ class Robot extends BodyComponent<MyGame> with CollisionCallbacks{
   final List<SpriteAnimation>listSprite;
 
 
-  Robot(
-      this.position, this.restitution, this.listSprite);
+  Robot(this.position, this.restitution, this.listSprite);
 
   @override
   Body createBody() {
@@ -35,15 +34,11 @@ class Robot extends BodyComponent<MyGame> with CollisionCallbacks{
     return world.createBody(bodyDef)..createFixture(fixture);
   }
 
-
-
     @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
      super.onLoad();
-
      //add(CircleHitbox());
-
   }
 
   @override
@@ -115,16 +110,15 @@ class Robot extends BodyComponent<MyGame> with CollisionCallbacks{
 
     if(stateY && gameRef.robot.body.position.y>100){
       robot.current=animationState.jump;
-      gameRef.robot.body.position.add(Vector2(0, playerVectory));
+      gameRef.robot.center.add(Vector2(0, playerVectory));
 
       if(gameRef.robot.body.position.y<=100){
         robot.current=animationState.idle;
       }
-
     }
    // print(gameRef.ground.body.position.y);
     if(!stateY  && gameRef.robot.body.position.y<=gameRef.size.y-120){//position ground me da 0
-      gameRef.robot.body.position.add(Vector2(0, playerVectory));
+      gameRef.robot.center.add(Vector2(0, playerVectory));
     }
 
     /*if(position.y<gameRef.size.y-size.y && current!=animationState.jump){
@@ -135,31 +129,11 @@ class Robot extends BodyComponent<MyGame> with CollisionCallbacks{
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    // TODO: implement onCollision
-    super.onCollision(intersectionPoints, other);
-    if(other is Enemy){
-
+  void beginContact(Object other, Contact contact) {
+    // TODO: implement beginContact
+    super.beginContact(other, contact);
+    if (other is Robot) {
+      print("ha chocado");
     }
   }
-
-
-
-
-  @override
-  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
-    // TODO: implement onCollisionStart
-    super.onCollisionStart(intersectionPoints, other);
-    if(other is Enemy){
-      print("HHHHHHHHHHHHHHHHHH");
-    }
-  }
-
-
-
-
-
-
-
-
 }

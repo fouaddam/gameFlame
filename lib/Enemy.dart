@@ -1,14 +1,16 @@
+import 'package:actividad/BulletBodyComp.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 
+import 'Robot.dart';
 import 'main.dart';
 
 enum animationState {walk,melle,idle,jump,runShoot}
 
-class Enemy extends BodyComponent<MyGame> with CollisionCallbacks {
+class Enemy extends BodyComponent<MyGame> with ContactCallbacks {
 
   late Vector2 position;
   late double restitution;
@@ -26,18 +28,15 @@ class Enemy extends BodyComponent<MyGame> with CollisionCallbacks {
     final fixture = FixtureDef(
         shape, friction: 0.2, restitution: 0.2, density: 0.5);
     bodyDef =
-        BodyDef(userData: this, position: position, type: BodyType.dynamic,fixedRotation: true);
+        BodyDef(userData: this,
+            position: position,
+            type: BodyType.dynamic,
+            fixedRotation: true);
     return world.createBody(bodyDef)
       ..createFixture(fixture);
   }
 
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    // TODO: implement onCollision
-    super.onCollision(intersectionPoints, other);
 
-    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-  }
 
 
   @override
@@ -70,7 +69,7 @@ class Enemy extends BodyComponent<MyGame> with CollisionCallbacks {
 
     add(
         enemy
-          /*..add(
+      /*..add(
               MoveEffect.to(
                 Vector2(10, 0),
                 EffectController(
@@ -90,15 +89,15 @@ class Enemy extends BodyComponent<MyGame> with CollisionCallbacks {
 
     //gameRef.enemy.body.position.x-= 1;
     //enemy.position.x-= 1;
-    gameRef.enemy.center.x-= 1;
+    gameRef.enemy.center.x -= 1;
 
     /*print("BoDYEnemYYY${gameRef.enemy.body.position.x}");
     print("BoDYRobot${gameRef.robot.body.position.x}");
 */
-    double positionEnemy=gameRef.enemy.body.position.x;
-    double positionRobot=gameRef.robot.body.position.x;
+    double positionEnemy = gameRef.enemy.body.position.x;
+    double positionRobot = gameRef.robot.body.position.x;
 
-    if(enemy.scale.x>0&&positionRobot<positionEnemy){
+    if (enemy.scale.x > 0 && positionRobot < positionEnemy) {
       enemy.flipHorizontally();
       enemy.current = animationState.runShoot;
     }
@@ -117,5 +116,17 @@ class Enemy extends BodyComponent<MyGame> with CollisionCallbacks {
     }*/
 
 
+  }
+
+  @override
+  void beginContact(Object other, Contact contact) {
+    // TODO: implement beginContact
+    super.beginContact(other, contact);
+    if (other is Robot) {
+      print("ha chocado");
+    }
+    if(other is BulletBodyComp){
+      removeFromParent();
+    }
   }
 }
