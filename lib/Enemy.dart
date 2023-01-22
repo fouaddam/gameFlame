@@ -1,9 +1,14 @@
+
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:actividad/BulletBodyComp.dart';
-import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
-import 'package:flame_forge2d/body_component.dart';
+import 'package:flame/particles.dart';
+import 'package:flame_forge2d/contact_callbacks.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flutter/material.dart';
+
 
 import 'Robot.dart';
 import 'main.dart';
@@ -17,6 +22,7 @@ class Enemy extends BodyComponent<MyGame> with ContactCallbacks {
   late SpriteAnimationGroupComponent enemy = SpriteAnimationGroupComponent();
   late BodyDef bodyDef;
   late final List<SpriteAnimation>listSprite;
+  final Random _random=Random();
 
 
   Enemy(this.position, this.restitution, this.listSprite);
@@ -126,7 +132,31 @@ class Enemy extends BodyComponent<MyGame> with ContactCallbacks {
       print("ha chocado");
     }
     if(other is BulletBodyComp){
+      enemy.current = animationState.melle;
+       // sleep(const Duration(seconds: 3));
+     /* final particleComponent = ParticleSystemComponent(
+        particle: Particle.generate(
+          count: 60,
+          lifespan: 0.1,
+          generator: (i) => AcceleratedParticle(
+            acceleration: getRandomVector(),
+            speed: getRandomVector(),
+            position: position.clone(),
+            child: CircleParticle(
+              radius: 1,
+              paint: Paint()..color = Colors.black,
+            ),
+          ),
+        ),
+      );
+
+      gameRef.add(particleComponent);*/
       removeFromParent();
     }
+
+    }
+
+  Vector2 getRandomVector() {
+    return(Vector2.random(_random) - Vector2.random(_random)) * 500;
   }
-}
+  }

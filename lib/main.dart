@@ -119,7 +119,7 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDet
        robot=Robot(Vector2(200,400), 0.5, listSprite);
       add(robot);
 
-      ground=Ground(Vector2(600,600),50,50);
+      ground=Ground(Vector2(1500,600),50,50);
 
     add(ground);
 
@@ -169,8 +169,6 @@ class MyGame extends Forge2DGame with HasDraggables,HasCollisionDetection,TapDet
     if (remaninTime > 0) {
       timer.update(dt);
     }
-
-
   }
 
   void Contacts(){

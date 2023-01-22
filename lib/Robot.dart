@@ -90,13 +90,13 @@ class Robot extends BodyComponent<MyGame> with ContactCallbacks{
     //print("*****${body.position.x}");
     bool stateX=gameRef.joystickComponent.relativeDelta.x.isNegative;
     bool stateY=gameRef.joystickComponent.relativeDelta.y.isNegative;
-    if(!stateX){
+    if(!stateX&& gameRef.joystickComponent.relativeDelta.x!=0){
       robot.current=animationState.runShoot;
       gameRef.parallaxComponent.parallax?.baseVelocity.x=100;
-      //gameRef.robot.body.position.x+=1;
+     // gameRef.robot.center.x+=1;
     }
 
-    if(stateX && gameRef.joystickComponent.relativeDelta.x<0){
+    if(stateX){
       robot.current=animationState.melle;
       gameRef.parallaxComponent.parallax?.baseVelocity.x=0;
 
@@ -108,18 +108,16 @@ class Robot extends BodyComponent<MyGame> with ContactCallbacks{
 
     double playerVectory = (gameRef.joystickComponent.delta * 10 * dt).y;
 
-    if(stateY && gameRef.robot.body.position.y>100){
+    if(stateY && gameRef.robot.center.y>100){
       robot.current=animationState.jump;
       gameRef.robot.center.add(Vector2(0, playerVectory));
 
-      if(gameRef.robot.body.position.y<=100){
+      if(gameRef.robot.body.position.y==100){
         robot.current=animationState.idle;
       }
     }
    // print(gameRef.ground.body.position.y);
-    if(!stateY  && gameRef.robot.body.position.y<=gameRef.size.y-120){//position ground me da 0
-      gameRef.robot.center.add(Vector2(0, playerVectory));
-    }
+
 
     /*if(position.y<gameRef.size.y-size.y && current!=animationState.jump){
       velocity.y-=(gravity/20);
@@ -132,7 +130,7 @@ class Robot extends BodyComponent<MyGame> with ContactCallbacks{
   void beginContact(Object other, Contact contact) {
     // TODO: implement beginContact
     super.beginContact(other, contact);
-    if (other is Robot) {
+    if (other is Enemy) {
       print("ha chocado");
     }
   }

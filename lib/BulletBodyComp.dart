@@ -61,7 +61,7 @@ class BulletBodyComp extends BodyComponent<MyGame> with ContactCallbacks{
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
-    gameRef.bulletBodyComp.center.x+=1;
+    gameRef.bulletBodyComp.center.x+=2;
   }
 
 
